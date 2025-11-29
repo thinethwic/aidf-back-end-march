@@ -1,17 +1,17 @@
 import { Types } from "mongoose";
 import OpenAI from "openai";
-import JobApplication from "../infastrutures/schemas/jobApplication"
+import jobApplication from "../infastrutures/schemas/jobApplication";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function generateRating(jobApplicationId: Types.ObjectId) {
-  const jobApplication = await JobApplication.findById(
+  const JobApplication = await jobApplication.findById(
     jobApplicationId
   ).populate<{ job: { title: string; answers: string[] } }>("job");
 
   const content = `Role:${
-    jobApplication?.job.title
-  }, User Description: ${jobApplication?.answers.join(". ")}`;
+    JobApplication?.job.title
+  }, User Description: ${JobApplication?.answers.join(". ")}`;
 
   const completion = await client.chat.completions.create({
     messages: [{ role: "user", content }],
@@ -27,11 +27,10 @@ export async function generateRating(jobApplicationId: Types.ObjectId) {
   const response = JSON.parse(strResponse);
 
   if (!response.rate) {
-    console.log(response)
     return;
   }
 
-  await JobApplication.findOneAndUpdate(
+  await jobApplication.findOneAndUpdate(
     { _id: jobApplicationId },
     { rating: response.rate }
   );

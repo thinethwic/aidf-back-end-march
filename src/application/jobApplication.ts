@@ -37,20 +37,16 @@ export const getJobApplication = async (req: Request, res:Response, next:NextFun
       }
 };
 
-export const getJobApplicationById = async (
-  req: Request,
-  res: Response,
-) => {
+export const getJobApplicationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-  const jobApplications = await jobApplication.findById(id);
-  if (jobApplications === null) {
-    return res.status(404).send();
-  }
-  return res.status(200).json(jobApplications);
+    const JobApplication = await jobApplication.findById(id).populate("job");
+    if (JobApplication === null) {
+      return res.status(404).send();
+    }
+    return res.status(200).json(JobApplication);
   } catch (error) {
     console.log(error);
-    return res.status(500) .send(); 
+    return res.status(500).send();
   }
-  
-}
+};

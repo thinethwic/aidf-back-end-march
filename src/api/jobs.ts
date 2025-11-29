@@ -1,7 +1,7 @@
 import express from "express";
 import { GetAllJobs, createJobs, deleteJob, getJobById, updateJob } from "../application/jobs";
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
-import AuthorizationMiddleware from "./middelware/authorization-middleware";
+import AuthorizationMiddleware from "./middleware/authorization-middleware";
 
 const jobRouter = express.Router(); 
 
