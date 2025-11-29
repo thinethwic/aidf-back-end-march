@@ -9,7 +9,7 @@ export const createJobApplication = async (req:Request,res:Response,next:NextFun
         const JobApplication = req.body;
         console.log(JobApplication);
         const createJobApplication = await jobApplication.create(JobApplication);
-        generateRating(createJobApplication._id)
+        // generateRating(createJobApplication._id)
         return res.status(201) .send(); 
     } catch (error) {
         next(error); 

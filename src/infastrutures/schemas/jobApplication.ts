@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const jobApplicationSchema = new mongoose.Schema({
+
     UserId: {
     type: String,
     required: true,
