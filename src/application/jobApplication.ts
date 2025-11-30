@@ -3,20 +3,25 @@ import jobApplication from "../infastrutures/schemas/jobApplication";
 import { generateRating } from "./rating";
 
 
-export const createJobApplication = async (req:Request,res:Response,next:NextFunction) => {
-    
-    try {
-        const JobApplication = req.body;
-        console.log(JobApplication);
-        const createJobApplication = await jobApplication.create(JobApplication);
-        // generateRating(createJobApplication._id)
-        return res.status(201) .send(); 
-    } catch (error) {
-        next(error); 
-        console.log(error);
-        return res.status(500) .send();
-    }
-}
+export const createJobApplication = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const jobApplication = req.body;
+    console.log(jobApplication);
+
+    const createdJobApplication = await jobApplication.create(jobApplication);
+    // call the method that updates the created job application with the rating
+    generateRating(createdJobApplication._id);
+
+    return res.status(201).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send();
+  }
+};
 
 export const getJobApplication = async (req: Request, res:Response, next:NextFunction) => {
     try {
